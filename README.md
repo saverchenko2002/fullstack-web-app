@@ -1,2 +1,3 @@
-# fullstack-web-app
-Spring Boot React Full Stack Application
+# fullstack-web-apps
+My development repository for quickly finding future fixes
+
