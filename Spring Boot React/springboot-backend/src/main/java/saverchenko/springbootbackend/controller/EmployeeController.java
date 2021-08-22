@@ -33,4 +33,19 @@ public class EmployeeController {
                 .orElseThrow(() -> new ResourceNotFoundException("Employee with ID = " + id + " doesn't exist"));
         return ResponseEntity.ok(employee);
     }
+
+    @PutMapping("/employees/{id}")
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
+        Employee currentEmployee = employeeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee with ID = " + id + " doesn't exist"));
+
+        //TODO: change with DTO pattern
+        currentEmployee.setFirstName(updatedEmployee.getFirstName());
+        currentEmployee.setLastName(updatedEmployee.getLastName());
+        currentEmployee.setEmail(updatedEmployee.getEmail());
+        employeeRepository.save(currentEmployee);
+
+        return ResponseEntity.ok(currentEmployee);
+    }
+
 }
