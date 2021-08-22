@@ -7,7 +7,9 @@ import saverchenko.springbootbackend.entity.Employee;
 import saverchenko.springbootbackend.exception.ResourceNotFoundException;
 import saverchenko.springbootbackend.repository.EmployeeRepository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/")
@@ -46,6 +48,17 @@ public class EmployeeController {
         employeeRepository.save(currentEmployee);
 
         return ResponseEntity.ok(currentEmployee);
+    }
+
+    @DeleteMapping("/employees/{id}")
+    public ResponseEntity<Map<String, Boolean>> deleteEmployee(@PathVariable Long id) {
+        Employee currentEmployee = employeeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee with ID = " + id + " doesn't exist"));
+
+        employeeRepository.delete(currentEmployee);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return ResponseEntity.ok(response);
     }
 
 }
