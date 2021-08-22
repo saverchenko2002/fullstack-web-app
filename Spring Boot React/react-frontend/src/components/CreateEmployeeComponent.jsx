@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import EmployeeService from '../services/EmployeeService';
 
 class CreateEmployeeComponent extends Component {
     constructor(props) {
@@ -19,6 +20,10 @@ class CreateEmployeeComponent extends Component {
         e.preventDefault();
         let employee = {firstName: this.state.firstName, lastName: this.state.lastName, email: this.state.email};
         console.log('employee => ' + JSON.stringify(employee))
+
+        EmployeeService.createEmployee(employee).then(res => {
+            this.props.history.push('/employees');
+        });
     }
 
     cancel() {
@@ -54,7 +59,7 @@ class CreateEmployeeComponent extends Component {
                                     <div className="form-group">
                                         <label> First Name: </label>
                                         <input placeholder="Last Name" name="lastName" className="form-control"
-                                            value={this.state.lastName} onChange={this.changeFirstNameHandler}/>
+                                            value={this.state.lastName} onChange={this.changeLastNameHandler}/>
                                     </div>
                                     <div className="form-group">
                                         <label> Email: </label>
