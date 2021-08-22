@@ -1,8 +1,10 @@
 package saverchenko.springbootbackend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import saverchenko.springbootbackend.entity.Employee;
+import saverchenko.springbootbackend.exception.ResourceNotFoundException;
 import saverchenko.springbootbackend.repository.EmployeeRepository;
 
 import java.util.List;
@@ -23,5 +25,12 @@ public class EmployeeController {
     @PostMapping("/employees")
     public Employee createEmployee(@RequestBody Employee employee) {
         return employeeRepository.save(employee);
+    }
+
+    @GetMapping("/employees/{id}")
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee with ID = " + id + " doesn't exist"));
+        return ResponseEntity.ok(employee);
     }
 }
